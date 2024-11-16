@@ -41,7 +41,7 @@ impl Builder {
 
     pub fn set_tls<F>(&mut self, f: F) -> AddinResult
     where
-        F: FnOnce(&mut TlsProperties) -> (),
+        F: FnOnce(&mut TlsProperties),
     {
         let mut props = self.tls_properties.take().unwrap_or_default();
         f(&mut props);
