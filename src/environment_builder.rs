@@ -178,37 +178,3 @@ macro_rules! environment_impl {
         }
     };
 }
-
-#[macro_export]
-macro_rules! environment_methods {
-    () => {
-        MethodInfo {
-            name: name!("SetHost"),
-            method: Methods::Method1(Self::set_host),
-        },
-        MethodInfo {
-            name: name!("SetPort"),
-            method: Methods::Method1(Self::set_port),
-        },
-        MethodInfo {
-            name: name!("SetUsername"),
-            method: Methods::Method1(Self::set_username),
-        },
-        MethodInfo {
-            name: name!("SetPassword"),
-            method: Methods::Method1(Self::set_password),
-        },
-        MethodInfo {
-            name: name!("SetVirtualHost"),
-            method: Methods::Method1(Self::set_virtual_host),
-        },
-        MethodInfo {
-            name: name!("SetHeartbeat"),
-            method: Methods::Method1(Self::set_heartbeat),
-        },
-        MethodInfo {
-            name: name!("SetLoadBalancerMode"),
-            method: Methods::Method1(Self::set_load_balancer_mode),
-        },
-    }
-}
