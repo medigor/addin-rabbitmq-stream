@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Form xmlns="http://v8.1c.ru/8.3/xcf/logform" xmlns:app="http://v8.1c.ru/8.2/managed-application/core" xmlns:cfg="http://v8.1c.ru/8.1/data/enterprise/current-config" xmlns:dcscor="http://v8.1c.ru/8.1/data-composition-system/core" xmlns:dcssch="http://v8.1c.ru/8.1/data-composition-system/schema" xmlns:dcsset="http://v8.1c.ru/8.1/data-composition-system/settings" xmlns:ent="http://v8.1c.ru/8.1/data/enterprise" xmlns:lf="http://v8.1c.ru/8.2/managed-application/logform" xmlns:style="http://v8.1c.ru/8.1/data/ui/style" xmlns:sys="http://v8.1c.ru/8.1/data/ui/fonts/system" xmlns:v8="http://v8.1c.ru/8.1/data/core" xmlns:v8ui="http://v8.1c.ru/8.1/data/ui" xmlns:web="http://v8.1c.ru/8.1/data/ui/colors/web" xmlns:win="http://v8.1c.ru/8.1/data/ui/colors/windows" xmlns:xr="http://v8.1c.ru/8.3/xcf/readable" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.16">
+	<AutoSaveDataInSettings>Use</AutoSaveDataInSettings>
+	<AutoCommandBar name="ФормаКоманднаяПанель" id="-1"/>
+	<Events>
+		<Event name="OnLoadDataFromSettingsAtServer">ПриЗагрузкеДанныхИзНастроекНаСервере</Event>
+		<Event name="OnCreateAtServer">ПриСозданииНаСервере</Event>
+	</Events>
+	<ChildItems>
+		<InputField name="ИмяФайла" id="3">
+			<DataPath>ИмяФайлаКомпоненты</DataPath>
+			<AutoMaxWidth>false</AutoMaxWidth>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<InputHint>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>/path/to/libaddin_rabbitmq_stream.so[addin_rabbitmq_stream.dll]</v8:content>
+				</v8:item>
+			</InputHint>
+			<ContextMenu name="ИмяФайлаКонтекстноеМеню" id="4"/>
+			<ExtendedTooltip name="ИмяФайлаРасширеннаяПодсказка" id="5"/>
+		</InputField>
+		<UsualGroup name="ГруппаСерверПорт" id="31">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа сервер порт</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа сервер порт</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаСерверПортРасширеннаяПодсказка" id="32"/>
+			<ChildItems>
+				<InputField name="Сервер" id="8">
+					<DataPath>Сервер</DataPath>
+					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<InputHint>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>localhost</v8:content>
+						</v8:item>
+					</InputHint>
+					<ContextMenu name="СерверКонтекстноеМеню" id="9"/>
+					<ExtendedTooltip name="СерверРасширеннаяПодсказка" id="10"/>
+				</InputField>
+				<InputField name="Порт" id="11">
+					<DataPath>Порт</DataPath>
+					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<InputHint>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>5552</v8:content>
+						</v8:item>
+					</InputHint>
+					<ContextMenu name="ПортКонтекстноеМеню" id="12"/>
+					<ExtendedTooltip name="ПортРасширеннаяПодсказка" id="13"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="Стрим" id="33">
+			<DataPath>Стрим</DataPath>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<InputHint>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>имя стрима</v8:content>
+				</v8:item>
+			</InputHint>
+			<ContextMenu name="СтримКонтекстноеМеню" id="34"/>
+			<ExtendedTooltip name="СтримРасширеннаяПодсказка" id="35"/>
+		</InputField>
+		<CheckBoxField name="ИспользоватьTLS" id="36">
+			<DataPath>ИспользоватьTLS</DataPath>
+			<CheckBoxType>Auto</CheckBoxType>
+			<ContextMenu name="ИспользоватьTLSКонтекстноеМеню" id="37"/>
+			<ExtendedTooltip name="ИспользоватьTLSРасширеннаяПодсказка" id="38"/>
+			<Events>
+				<Event name="OnChange">ИспользоватьTLSПриИзменении</Event>
+			</Events>
+		</CheckBoxField>
+		<UsualGroup name="ГруппаЛогинПароль" id="29">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа логин пароль</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Группа логин пароль</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Representation>None</Representation>
+			<ShowTitle>false</ShowTitle>
+			<ExtendedTooltip name="ГруппаЛогинПарольРасширеннаяПодсказка" id="30"/>
+			<ChildItems>
+				<InputField name="Логин" id="14">
+					<DataPath>Логин</DataPath>
+					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<InputHint>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>guest</v8:content>
+						</v8:item>
+					</InputHint>
+					<ContextMenu name="ЛогинКонтекстноеМеню" id="15"/>
+					<ExtendedTooltip name="ЛогинРасширеннаяПодсказка" id="16"/>
+				</InputField>
+				<InputField name="Пароль" id="17">
+					<DataPath>Пароль</DataPath>
+					<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+					<InputHint>
+						<v8:item>
+							<v8:lang>ru</v8:lang>
+							<v8:content>guest</v8:content>
+						</v8:item>
+					</InputHint>
+					<ContextMenu name="ПарольКонтекстноеМеню" id="18"/>
+					<ExtendedTooltip name="ПарольРасширеннаяПодсказка" id="19"/>
+				</InputField>
+			</ChildItems>
+		</UsualGroup>
+		<InputField name="СертификатКлиента" id="20">
+			<DataPath>СертификатКлиента</DataPath>
+			<AutoMaxWidth>false</AutoMaxWidth>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<InputHint>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>/path/to/client_certificate.pem</v8:content>
+				</v8:item>
+			</InputHint>
+			<ContextMenu name="СертификатКлиентаКонтекстноеМеню" id="21"/>
+			<ExtendedTooltip name="СертификатКлиентаРасширеннаяПодсказка" id="22"/>
+		</InputField>
+		<InputField name="СекретныйКлючКлиента" id="23">
+			<DataPath>СекретныйКлючКлиента</DataPath>
+			<AutoMaxWidth>false</AutoMaxWidth>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<InputHint>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>path/to/client_key.pem</v8:content>
+				</v8:item>
+			</InputHint>
+			<ContextMenu name="СекретныйКлючКлиентаКонтекстноеМеню" id="24"/>
+			<ExtendedTooltip name="СекретныйКлючКлиентаРасширеннаяПодсказка" id="25"/>
+		</InputField>
+		<InputField name="СертификатСервера" id="26">
+			<DataPath>СертификатСервера</DataPath>
+			<AutoMaxWidth>false</AutoMaxWidth>
+			<ExtendedEditMultipleValues>true</ExtendedEditMultipleValues>
+			<InputHint>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>/path/to/ca_certificate.pem</v8:content>
+				</v8:item>
+			</InputHint>
+			<ContextMenu name="СертификатСервераКонтекстноеМеню" id="27"/>
+			<ExtendedTooltip name="СертификатСервераРасширеннаяПодсказка" id="28"/>
+		</InputField>
+		<Button name="ТестProducer" id="1">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.ТестProducer</CommandName>
+			<ExtendedTooltip name="ТестProducerРасширеннаяПодсказка" id="2"/>
+		</Button>
+		<Button name="ТестConsumer" id="6">
+			<Type>UsualButton</Type>
+			<CommandName>Form.Command.ТестConsumer</CommandName>
+			<ExtendedTooltip name="ТестConsumerРасширеннаяПодсказка" id="7"/>
+		</Button>
+	</ChildItems>
+	<Attributes>
+		<Attribute name="Объект" id="1">
+			<Type>
+				<v8:Type>cfg:DataProcessorObject.Тесты</v8:Type>
+			</Type>
+			<MainAttribute>true</MainAttribute>
+		</Attribute>
+		<Attribute name="ИмяФайлаКомпоненты" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Имя файла компоненты</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<FillCheck>ShowError</FillCheck>
+			<Save>
+				<Field>ИмяФайлаКомпоненты</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="Сервер" id="3">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сервер</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>Сервер</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="Порт" id="4">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Порт</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:decimal</v8:Type>
+				<v8:NumberQualifiers>
+					<v8:Digits>5</v8:Digits>
+					<v8:FractionDigits>0</v8:FractionDigits>
+					<v8:AllowedSign>Any</v8:AllowedSign>
+				</v8:NumberQualifiers>
+			</Type>
+			<Save>
+				<Field>Порт</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="Логин" id="5">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Логин</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>Логин</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="Пароль" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Пароль</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>Пароль</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="СертификатКлиента" id="7">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сертификат клиента</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>СертификатКлиента</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="СекретныйКлючКлиента" id="8">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Секретный ключ клиента</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>СекретныйКлючКлиента</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="СертификатСервера" id="9">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Сертификат сервера</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<Save>
+				<Field>СертификатСервера</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="Стрим" id="10">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Стрим</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:string</v8:Type>
+				<v8:StringQualifiers>
+					<v8:Length>0</v8:Length>
+					<v8:AllowedLength>Variable</v8:AllowedLength>
+				</v8:StringQualifiers>
+			</Type>
+			<FillCheck>ShowError</FillCheck>
+			<Save>
+				<Field>Стрим</Field>
+			</Save>
+		</Attribute>
+		<Attribute name="ИспользоватьTLS" id="11">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Использовать TLS</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+			<Save>
+				<Field>ИспользоватьTLS</Field>
+			</Save>
+		</Attribute>
+	</Attributes>
+	<Commands>
+		<Command name="ТестProducer" id="1">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тест Producer</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тест producer</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ТестProducer</Action>
+		</Command>
+		<Command name="ТестConsumer" id="2">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тест Consumer</v8:content>
+				</v8:item>
+			</Title>
+			<ToolTip>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Тест consumer</v8:content>
+				</v8:item>
+			</ToolTip>
+			<Action>ТестConsumer</Action>
+		</Command>
+	</Commands>
+</Form>

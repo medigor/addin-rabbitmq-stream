@@ -1,0 +1,21 @@
+[package]
+name = "addin-rabbitmq-stream"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+
+[dependencies]
+addin1c = { version = "0.5.0", features = ["chrono"] }
+tokio = { version = "1", features = ["full"] }
+rabbitmq-stream-client = "0.6"
+rabbitmq-stream-protocol = "0.6"
+futures = "0.3"
+chrono = "*"
+bytemuck = "*"
