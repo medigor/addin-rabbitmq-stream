@@ -10,7 +10,7 @@ use rabbitmq_stream_client::{
 };
 use tokio::{runtime::Runtime, time};
 
-use crate::{environment_builder, environment_impl};
+use crate::environments::with_environment;
 
 #[derive(Default)]
 struct ConsumerProperties {
@@ -18,7 +18,6 @@ struct ConsumerProperties {
 }
 
 pub struct AddinConsumer {
-    environment_builder: environment_builder::Builder,
     consumer_properties: Option<Box<ConsumerProperties>>,
     runtime: Runtime,
     consumer: Option<Consumer>,
@@ -29,7 +28,6 @@ pub struct AddinConsumer {
 impl AddinConsumer {
     pub fn new() -> Self {
         Self {
-            environment_builder: environment_builder::Builder::new(),
             consumer_properties: Some(Default::default()),
             runtime: tokio::runtime::Builder::new_current_thread()
                 .enable_all()
@@ -57,16 +55,22 @@ impl AddinConsumer {
         Ok(())
     }
 
-    fn build(&mut self, stream: &mut Variant, _ret_value: &mut Variant) -> AddinResult {
+    fn build(
+        &mut self,
+        environment: &mut Variant,
+        stream: &mut Variant,
+        _ret_value: &mut Variant,
+    ) -> AddinResult {
+        let environment = environment.get_i32()?;
         let stream = stream.get_string()?;
-        let environment = self.runtime.block_on(self.environment_builder.build())?;
 
         let consumer_properties = *self
             .consumer_properties
             .take()
             .ok_or("ConsumerBuilder not exists")?;
 
-        let mut builder = environment.consumer();
+        let mut builder =
+            with_environment(environment, |env| env.consumer()).ok_or("Environment not exists")?;
         if let Some(name) = &consumer_properties.name {
             builder = builder.name(name);
         }
@@ -80,7 +84,8 @@ impl AddinConsumer {
             Err(err) => return Err(err.into()),
         };
 
-        let mut builder = environment.consumer();
+        let mut builder =
+            with_environment(environment, |env| env.consumer()).ok_or("Environment not exists")?;
         if let Some(name) = &consumer_properties.name {
             builder = builder.name(name);
         }
@@ -203,8 +208,6 @@ impl AddinConsumer {
         self.runtime.block_on(consumer.store_offset(offset))?;
         Ok(())
     }
-
-    environment_impl! {}
 }
 
 impl SimpleAddin for AddinConsumer {
@@ -239,52 +242,12 @@ impl SimpleAddin for AddinConsumer {
                 method: Methods::Method1(Self::store_offset),
             },
             MethodInfo {
-                name: name!("SetHost"),
-                method: Methods::Method1(Self::set_host),
-            },
-            MethodInfo {
-                name: name!("SetPort"),
-                method: Methods::Method1(Self::set_port),
-            },
-            MethodInfo {
-                name: name!("SetUsername"),
-                method: Methods::Method1(Self::set_username),
-            },
-            MethodInfo {
-                name: name!("SetPassword"),
-                method: Methods::Method1(Self::set_password),
-            },
-            MethodInfo {
-                name: name!("SetVirtualHost"),
-                method: Methods::Method1(Self::set_virtual_host),
-            },
-            MethodInfo {
-                name: name!("SetHeartbeat"),
-                method: Methods::Method1(Self::set_heartbeat),
-            },
-            MethodInfo {
-                name: name!("SetLoadBalancerMode"),
-                method: Methods::Method1(Self::set_load_balancer_mode),
-            },
-            MethodInfo {
-                name: name!("AddClientCertificatesKeys"),
-                method: Methods::Method2(Self::add_client_certificates_keys),
-            },
-            MethodInfo {
-                name: name!("AddRootCertificates"),
-                method: Methods::Method1(Self::add_root_certificates),
-            },
-            MethodInfo {
-                name: name!("TrustCertificates"),
-                method: Methods::Method1(Self::trust_certificates),
-            },
-            MethodInfo {
                 name: name!("SetName"),
                 method: Methods::Method1(Self::set_name),
             },
             MethodInfo {
                 name: name!("Build"),
-                method: Methods::Method1(Self::build),
+                method: Methods::Method2(Self::build),
             },
         ]
     }

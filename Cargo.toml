@@ -14,8 +14,7 @@ strip = true
 [dependencies]
 addin1c = { version = "0.5.0", features = ["chrono"] }
 tokio = { version = "1", features = ["full"] }
-rabbitmq-stream-client = "0.6"
-rabbitmq-stream-protocol = "0.6"
+rabbitmq-stream-client = "0.7"
+rabbitmq-stream-protocol = "0.7"
 futures = "0.3"
 chrono = "*"
-bytemuck = "*"

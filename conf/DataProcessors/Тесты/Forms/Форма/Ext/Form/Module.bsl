@@ -40,12 +40,15 @@
 		ВызватьИсключение "Не удалось подключить внешнюю компоненту";
 	КонецЕсли;
 	
+	EnvironmentBuilder = Новый ("Addin.MedIgor.RabbitMQ.Stream.EnvironmentBuilder");
+	ЗаполнитьНастройкиСреды(EnvironmentBuilder);
+	Environment = EnvironmentBuilder.Build();
+	
 	Producer = Новый ("Addin.MedIgor.RabbitMQ.Stream.Producer");
-	ЗаполнитьНастройкиСреды(Producer);
 	Producer.SetName("producer1");
 	
 	Попытка
-		Producer.Build(Стрим);
+		Producer.Build(Environment, Стрим);
 	Исключение
 		ВызватьИсключение Producer.LastError;
 	КонецПопытки;
@@ -91,12 +94,15 @@
 		ВызватьИсключение "Не удалось подключить внешнюю компоненту";
 	КонецЕсли;
 	
+	EnvironmentBuilder = Новый ("Addin.MedIgor.RabbitMQ.Stream.EnvironmentBuilder");
+	ЗаполнитьНастройкиСреды(EnvironmentBuilder);
+	Environment = EnvironmentBuilder.Build();
+	
 	Consumer = Новый ("Addin.MedIgor.RabbitMQ.Stream.Consumer");
-	ЗаполнитьНастройкиСреды(Consumer);
 	Consumer.SetName("consumer1");
 	
 	Попытка
-		Consumer.Build(Стрим);
+		Consumer.Build(Environment, Стрим);
 	Исключение
 		ВызватьИсключение Consumer.LastError;
 	КонецПопытки;
@@ -130,34 +136,34 @@
 
 
 &НаСервере
-Процедура ЗаполнитьНастройкиСреды(Клиент)
+Процедура ЗаполнитьНастройкиСреды(EnvironmentBuilder)
 	
 	Если ЗначениеЗаполнено(Сервер) Тогда
-		Клиент.SetHost(Сервер);
+		EnvironmentBuilder.SetHost(Сервер);
 	КонецЕсли;
 	
 	Если ЗначениеЗаполнено(Порт) Тогда
-		Клиент.SetPort(Порт);
+		EnvironmentBuilder.SetPort(Порт);
 	КонецЕсли;
 	
 	Если ИспользоватьTLS Тогда
 		
 		Если ЗначениеЗаполнено(СертификатКлиента) И ЗначениеЗаполнено(СекретныйКлючКлиента) Тогда
-			Клиент.AddClientCertificatesKeys(СертификатКлиента, СекретныйКлючКлиента);
+			EnvironmentBuilder.AddClientCertificatesKeys(СертификатКлиента, СекретныйКлючКлиента);
 		КонецЕсли;
 		
 		Если ЗначениеЗаполнено(СертификатСервера) Тогда
-			Клиент.AddRootCertificates(СертификатСервера);
+			EnvironmentBuilder.AddRootCertificates(СертификатСервера);
 		КонецЕсли;
-	
+		
 	Иначе
 		
 		Если ЗначениеЗаполнено(Логин) Тогда
-			Клиент.SetUsername(Логин);
+			EnvironmentBuilder.SetUsername(Логин);
 		КонецЕсли;
 		
 		Если ЗначениеЗаполнено(Пароль) Тогда
-			Клиент.SetPassword(Пароль);
+			EnvironmentBuilder.SetPassword(Пароль);
 		КонецЕсли;
 		
 	КонецЕсли;

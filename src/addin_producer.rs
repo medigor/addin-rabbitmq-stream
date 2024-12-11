@@ -7,7 +7,7 @@ use rabbitmq_stream_client::{
 use std::{collections::HashMap, error::Error, mem, time::Duration};
 use tokio::runtime::Runtime;
 
-use crate::{environment_builder, environment_impl};
+use crate::environments::with_environment;
 
 #[derive(Default)]
 struct ProducerBuilder {
@@ -47,7 +47,6 @@ impl ProducerWrapper {
 }
 
 pub struct AddinProducer {
-    environment_builder: environment_builder::Builder,
     producer_builder: Option<Box<ProducerBuilder>>,
     runtime: Runtime,
     producer: ProducerWrapper,
@@ -60,7 +59,6 @@ pub struct AddinProducer {
 impl AddinProducer {
     pub fn new() -> Self {
         Self {
-            environment_builder: environment_builder::Builder::new(),
             producer_builder: Some(Box::new(ProducerBuilder::default())),
             runtime: tokio::runtime::Builder::new_current_thread()
                 .enable_all()
@@ -115,16 +113,22 @@ impl AddinProducer {
         Ok(())
     }
 
-    fn build(&mut self, stream: &mut Variant, _ret_value: &mut Variant) -> AddinResult {
+    fn build(
+        &mut self,
+        environment: &mut Variant,
+        stream: &mut Variant,
+        _ret_value: &mut Variant,
+    ) -> AddinResult {
+        let environment = environment.get_i32()?;
         let stream = stream.get_string()?;
-        let environment = self.runtime.block_on(self.environment_builder.build())?;
 
         let producer_properties = *self
             .producer_builder
             .take()
             .ok_or("ProducerBuilder not exists")?;
 
-        let mut producer_builder = environment.producer();
+        let mut producer_builder =
+            with_environment(environment, |env| env.producer()).ok_or("Environment not exists")?;
         if let Some(delay) = producer_properties.batch_delay {
             producer_builder = producer_builder.batch_delay(delay);
         }
@@ -207,8 +211,6 @@ impl AddinProducer {
         ret_value.set_str1c(buf.as_str())?;
         Ok(())
     }
-
-    environment_impl! {}
 }
 
 impl SimpleAddin for AddinProducer {
@@ -239,46 +241,6 @@ impl SimpleAddin for AddinProducer {
                 method: Methods::Method0(Self::statuses),
             },
             MethodInfo {
-                name: name!("SetHost"),
-                method: Methods::Method1(Self::set_host),
-            },
-            MethodInfo {
-                name: name!("SetPort"),
-                method: Methods::Method1(Self::set_port),
-            },
-            MethodInfo {
-                name: name!("SetUsername"),
-                method: Methods::Method1(Self::set_username),
-            },
-            MethodInfo {
-                name: name!("SetPassword"),
-                method: Methods::Method1(Self::set_password),
-            },
-            MethodInfo {
-                name: name!("SetVirtualHost"),
-                method: Methods::Method1(Self::set_virtual_host),
-            },
-            MethodInfo {
-                name: name!("SetHeartbeat"),
-                method: Methods::Method1(Self::set_heartbeat),
-            },
-            MethodInfo {
-                name: name!("SetLoadBalancerMode"),
-                method: Methods::Method1(Self::set_load_balancer_mode),
-            },
-            MethodInfo {
-                name: name!("AddClientCertificatesKeys"),
-                method: Methods::Method2(Self::add_client_certificates_keys),
-            },
-            MethodInfo {
-                name: name!("AddRootCertificates"),
-                method: Methods::Method1(Self::add_root_certificates),
-            },
-            MethodInfo {
-                name: name!("TrustCertificates"),
-                method: Methods::Method1(Self::trust_certificates),
-            },
-            MethodInfo {
                 name: name!("SetName"),
                 method: Methods::Method1(Self::set_name),
             },
@@ -292,7 +254,7 @@ impl SimpleAddin for AddinProducer {
             },
             MethodInfo {
                 name: name!("Build"),
-                method: Methods::Method1(Self::build),
+                method: Methods::Method2(Self::build),
             },
         ]
     }

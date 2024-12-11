@@ -1,6 +1,7 @@
 mod addin_consumer;
 mod addin_producer;
-mod environment_builder;
+mod addin_environment;
+mod environments;
 
 use std::{
     ffi::{c_int, c_long, c_void},
@@ -25,6 +26,10 @@ pub unsafe extern "C" fn GetClassObject(name: *const u16, component: *mut *mut c
             let addin = addin_consumer::AddinConsumer::new();
             create_component(component, addin)
         }
+        b'2' => {
+            let addin = addin_environment::AddinEnvironment::new();
+            create_component(component, addin)
+        }
         _ => 0,
     }
 }
@@ -40,7 +45,7 @@ pub unsafe extern "C" fn DestroyObject(component: *mut *mut c_void) -> c_long {
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern "C" fn GetClassNames() -> *const u16 {
-    name!("0|1").as_ptr()
+    name!("0|1|2").as_ptr()
 }
 
 #[allow(non_snake_case)]
