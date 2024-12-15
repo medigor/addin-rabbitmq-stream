@@ -181,7 +181,7 @@ impl AddinEnvironment {
         Ok(())
     }
 
-    fn id(&mut self, ret_value: &mut Variant) -> AddinResult {
+    fn handle(&mut self, ret_value: &mut Variant) -> AddinResult {
         if self.id > 0 {
             ret_value.set_i32(self.id);
             return Ok(());
@@ -246,8 +246,8 @@ impl SimpleAddin for AddinEnvironment {
                 method: Methods::Method0(Self::build),
             },
             MethodInfo {
-                name: name!("Id"),
-                method: Methods::Method0(Self::id),
+                name: name!("Handle"),
+                method: Methods::Method0(Self::handle),
             },
         ]
     }
