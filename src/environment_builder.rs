@@ -69,9 +69,9 @@ impl Builder {
                     tls_builder.add_root_certificates(tls_properties.server_certificate_path);
             }
 
-            tls_builder = tls_builder.trust_certificates(tls_properties.trust_certificates);
+            tls_builder = tls_builder.enable(tls_properties.trust_certificates);
 
-            environment = environment.tls(tls_builder.build())
+            environment = environment.tls(tls_builder.build()?)
         }
 
         Ok(environment.build().await?)
