@@ -8,7 +8,6 @@ pub struct TlsProperties {
     pub client_certificate_path: String,
     pub client_private_key_path: String,
     pub server_certificate_path: String,
-    pub trust_certificates: bool,
 }
 
 pub struct Builder {
@@ -68,8 +67,6 @@ impl Builder {
                 tls_builder =
                     tls_builder.add_root_certificates(tls_properties.server_certificate_path);
             }
-
-            tls_builder = tls_builder.enable(tls_properties.trust_certificates);
 
             environment = environment.tls(tls_builder.build()?)
         }
@@ -163,17 +160,6 @@ macro_rules! environment_impl {
             let certificate_path = certificate_path.get_string()?;
             self.environment_builder.set_tls(|props| {
                 props.server_certificate_path = certificate_path;
-            })
-        }
-
-        fn trust_certificates(
-            &mut self,
-            trust_certificates: &mut Variant,
-            _ret_value: &mut Variant,
-        ) -> AddinResult {
-            let trust_certificates = trust_certificates.get_bool()?;
-            self.environment_builder.set_tls(|props| {
-                props.trust_certificates = trust_certificates;
             })
         }
     };

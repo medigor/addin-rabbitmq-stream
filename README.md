@@ -34,7 +34,6 @@
 - `SetLoadBalancerMode(mode: Булево)`
 - `AddClientCertificatesKeys(certificate_path: Строка, private_key_path: Строка)`
 - `AddRootCertificates(certificate_path: Строка)`
-- `TrustCertificates(trust_certificates: Булево)`
 
 ### Объект `RabbitMQ.Stream.Producer`
 Методы:

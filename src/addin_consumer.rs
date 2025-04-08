@@ -275,10 +275,6 @@ impl SimpleAddin for AddinConsumer {
                 method: Methods::Method1(Self::add_root_certificates),
             },
             MethodInfo {
-                name: name!("TrustCertificates"),
-                method: Methods::Method1(Self::trust_certificates),
-            },
-            MethodInfo {
                 name: name!("SetName"),
                 method: Methods::Method1(Self::set_name),
             },
