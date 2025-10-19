@@ -1,6 +1,6 @@
 use std::{error::Error, mem::transmute, time::Duration};
 
-use addin1c::{name, AddinResult, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
+use addin1c::{cstr1c, AddinResult, CStr1C, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
 use chrono::{DateTime, Utc};
 use futures::StreamExt;
 use rabbitmq_stream_client::{
@@ -208,8 +208,8 @@ impl AddinConsumer {
 }
 
 impl SimpleAddin for AddinConsumer {
-    fn name() -> &'static [u16] {
-        name!("RabbitMQ.Stream.Consumer")
+    fn name() -> &'static CStr1C {
+        cstr1c!("RabbitMQ.Stream.Consumer")
     }
 
     fn save_error(&mut self, err: Option<Box<dyn Error>>) {
@@ -219,67 +219,67 @@ impl SimpleAddin for AddinConsumer {
     fn methods() -> &'static [addin1c::MethodInfo<Self>] {
         &[
             MethodInfo {
-                name: name!("Recv"),
+                name: cstr1c!("Recv"),
                 method: Methods::Method1(Self::recv),
             },
             MethodInfo {
-                name: name!("MessageBody"),
+                name: cstr1c!("MessageBody"),
                 method: Methods::Method0(Self::message_body),
             },
             MethodInfo {
-                name: name!("ApplicationProperty"),
+                name: cstr1c!("ApplicationProperty"),
                 method: Methods::Method1(Self::application_property),
             },
             MethodInfo {
-                name: name!("Offset"),
+                name: cstr1c!("Offset"),
                 method: Methods::Method0(Self::offset),
             },
             MethodInfo {
-                name: name!("StoreOffset"),
+                name: cstr1c!("StoreOffset"),
                 method: Methods::Method1(Self::store_offset),
             },
             MethodInfo {
-                name: name!("SetHost"),
+                name: cstr1c!("SetHost"),
                 method: Methods::Method1(Self::set_host),
             },
             MethodInfo {
-                name: name!("SetPort"),
+                name: cstr1c!("SetPort"),
                 method: Methods::Method1(Self::set_port),
             },
             MethodInfo {
-                name: name!("SetUsername"),
+                name: cstr1c!("SetUsername"),
                 method: Methods::Method1(Self::set_username),
             },
             MethodInfo {
-                name: name!("SetPassword"),
+                name: cstr1c!("SetPassword"),
                 method: Methods::Method1(Self::set_password),
             },
             MethodInfo {
-                name: name!("SetVirtualHost"),
+                name: cstr1c!("SetVirtualHost"),
                 method: Methods::Method1(Self::set_virtual_host),
             },
             MethodInfo {
-                name: name!("SetHeartbeat"),
+                name: cstr1c!("SetHeartbeat"),
                 method: Methods::Method1(Self::set_heartbeat),
             },
             MethodInfo {
-                name: name!("SetLoadBalancerMode"),
+                name: cstr1c!("SetLoadBalancerMode"),
                 method: Methods::Method1(Self::set_load_balancer_mode),
             },
             MethodInfo {
-                name: name!("AddClientCertificatesKeys"),
+                name: cstr1c!("AddClientCertificatesKeys"),
                 method: Methods::Method2(Self::add_client_certificates_keys),
             },
             MethodInfo {
-                name: name!("AddRootCertificates"),
+                name: cstr1c!("AddRootCertificates"),
                 method: Methods::Method1(Self::add_root_certificates),
             },
             MethodInfo {
-                name: name!("SetName"),
+                name: cstr1c!("SetName"),
                 method: Methods::Method1(Self::set_name),
             },
             MethodInfo {
-                name: name!("Build"),
+                name: cstr1c!("Build"),
                 method: Methods::Method1(Self::build),
             },
         ]
@@ -287,7 +287,7 @@ impl SimpleAddin for AddinConsumer {
 
     fn properties() -> &'static [PropInfo<Self>] {
         &[PropInfo {
-            name: name!("LastError"),
+            name: cstr1c!("LastError"),
             getter: Some(Self::last_error),
             setter: None,
         }]

@@ -7,7 +7,7 @@ use std::{
     sync::atomic::{AtomicI32, Ordering},
 };
 
-use addin1c::{create_component, destroy_component, name, AttachType};
+use addin1c::{create_component, cstr1c, destroy_component, AttachType};
 
 pub static PLATFORM_CAPABILITIES: AtomicI32 = AtomicI32::new(-1);
 
@@ -40,7 +40,7 @@ pub unsafe extern "C" fn DestroyObject(component: *mut *mut c_void) -> c_long {
 #[allow(non_snake_case)]
 #[no_mangle]
 pub extern "C" fn GetClassNames() -> *const u16 {
-    name!("0|1").as_ptr()
+    cstr1c!("0|1").as_ptr()
 }
 
 #[allow(non_snake_case)]

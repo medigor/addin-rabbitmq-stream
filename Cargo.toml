@@ -12,10 +12,10 @@ codegen-units = 1
 strip = true
 
 [dependencies]
-addin1c = { version = "0.5.0", features = ["chrono"] }
+addin1c = { version = "0.7.0", features = ["chrono"] }
 tokio = { version = "1", features = ["full"] }
-rabbitmq-stream-client = "0.8"
-rabbitmq-stream-protocol = "0.8"
+rabbitmq-stream-client = "0.9"
+rabbitmq-stream-protocol = "0.9"
 futures = "0.3"
 chrono = "*"
 bytemuck = "*"

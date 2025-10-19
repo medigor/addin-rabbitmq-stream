@@ -1,10 +1,10 @@
-use addin1c::{name, AddinResult, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
+use addin1c::{cstr1c, AddinResult, CStr1C, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
 use chrono::{DateTime, Utc};
 use rabbitmq_stream_client::{
     types::{Message, ResponseCode, SimpleValue},
     Dedup, NoDedup, Producer,
 };
-use std::{collections::HashMap, error::Error, mem, time::Duration};
+use std::{collections::HashMap, error::Error, mem};
 use tokio::runtime::Runtime;
 
 use crate::{environment_builder, environment_impl};
@@ -12,7 +12,6 @@ use crate::{environment_builder, environment_impl};
 #[derive(Default)]
 struct ProducerBuilder {
     pub name: Option<String>,
-    pub batch_delay: Option<Duration>,
     pub batch_size: Option<usize>,
 }
 
@@ -91,18 +90,6 @@ impl AddinProducer {
         Ok(())
     }
 
-    fn set_batch_delay(
-        &mut self,
-        batch_delay: &mut Variant,
-        _ret_value: &mut Variant,
-    ) -> AddinResult {
-        let batch_delay = batch_delay.get_i32()? as u64;
-        if let Some(builder) = self.producer_builder.as_mut() {
-            builder.batch_delay = Some(Duration::from_millis(batch_delay));
-        }
-        Ok(())
-    }
-
     fn set_batch_size(
         &mut self,
         batch_size: &mut Variant,
@@ -125,9 +112,6 @@ impl AddinProducer {
             .ok_or("ProducerBuilder not exists")?;
 
         let mut producer_builder = environment.producer();
-        if let Some(delay) = producer_properties.batch_delay {
-            producer_builder = producer_builder.batch_delay(delay);
-        }
         if let Some(size) = producer_properties.batch_size {
             producer_builder = producer_builder.batch_size(size);
         }
@@ -212,8 +196,8 @@ impl AddinProducer {
 }
 
 impl SimpleAddin for AddinProducer {
-    fn name() -> &'static [u16] {
-        name!("RabbitMQ.Stream.Producer")
+    fn name() -> &'static CStr1C {
+        cstr1c!("RabbitMQ.Stream.Producer")
     }
 
     fn save_error(&mut self, err: Option<Box<dyn Error>>) {
@@ -223,71 +207,67 @@ impl SimpleAddin for AddinProducer {
     fn methods() -> &'static [MethodInfo<Self>] {
         &[
             MethodInfo {
-                name: name!("AddMessage"),
+                name: cstr1c!("AddMessage"),
                 method: Methods::Method1(Self::add_message),
             },
             MethodInfo {
-                name: name!("SetApplicationProperty"),
+                name: cstr1c!("SetApplicationProperty"),
                 method: Methods::Method2(Self::set_application_property),
             },
             MethodInfo {
-                name: name!("BatchSend"),
+                name: cstr1c!("BatchSend"),
                 method: Methods::Method0(Self::batch_send),
             },
             MethodInfo {
-                name: name!("Statuses"),
+                name: cstr1c!("Statuses"),
                 method: Methods::Method0(Self::statuses),
             },
             MethodInfo {
-                name: name!("SetHost"),
+                name: cstr1c!("SetHost"),
                 method: Methods::Method1(Self::set_host),
             },
             MethodInfo {
-                name: name!("SetPort"),
+                name: cstr1c!("SetPort"),
                 method: Methods::Method1(Self::set_port),
             },
             MethodInfo {
-                name: name!("SetUsername"),
+                name: cstr1c!("SetUsername"),
                 method: Methods::Method1(Self::set_username),
             },
             MethodInfo {
-                name: name!("SetPassword"),
+                name: cstr1c!("SetPassword"),
                 method: Methods::Method1(Self::set_password),
             },
             MethodInfo {
-                name: name!("SetVirtualHost"),
+                name: cstr1c!("SetVirtualHost"),
                 method: Methods::Method1(Self::set_virtual_host),
             },
             MethodInfo {
-                name: name!("SetHeartbeat"),
+                name: cstr1c!("SetHeartbeat"),
                 method: Methods::Method1(Self::set_heartbeat),
             },
             MethodInfo {
-                name: name!("SetLoadBalancerMode"),
+                name: cstr1c!("SetLoadBalancerMode"),
                 method: Methods::Method1(Self::set_load_balancer_mode),
             },
             MethodInfo {
-                name: name!("AddClientCertificatesKeys"),
+                name: cstr1c!("AddClientCertificatesKeys"),
                 method: Methods::Method2(Self::add_client_certificates_keys),
             },
             MethodInfo {
-                name: name!("AddRootCertificates"),
+                name: cstr1c!("AddRootCertificates"),
                 method: Methods::Method1(Self::add_root_certificates),
             },
             MethodInfo {
-                name: name!("SetName"),
+                name: cstr1c!("SetName"),
                 method: Methods::Method1(Self::set_name),
             },
             MethodInfo {
-                name: name!("SetBatchDelay"),
-                method: Methods::Method1(Self::set_batch_delay),
-            },
-            MethodInfo {
-                name: name!("SetBatchSize"),
+                name: cstr1c!("SetBatchSize"),
                 method: Methods::Method1(Self::set_batch_size),
             },
             MethodInfo {
-                name: name!("Build"),
+                name: cstr1c!("Build"),
                 method: Methods::Method1(Self::build),
             },
         ]
@@ -295,7 +275,7 @@ impl SimpleAddin for AddinProducer {
 
     fn properties() -> &'static [PropInfo<Self>] {
         &[PropInfo {
-            name: name!("LastError"),
+            name: cstr1c!("LastError"),
             getter: Some(Self::last_error),
             setter: None,
         }]
