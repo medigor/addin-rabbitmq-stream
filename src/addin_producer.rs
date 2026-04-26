@@ -1,4 +1,4 @@
-use addin1c::{name, AddinResult, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
+use addin1c::{AddinResult, CStr1C, MethodInfo, Methods, PropInfo, SimpleAddin, Variant, cstr1c, name};
 use chrono::{DateTime, Utc};
 use rabbitmq_stream_client::{
     types::{Message, ResponseCode, SimpleValue},
@@ -129,9 +129,9 @@ impl AddinProducer {
 
         let mut producer_builder =
             with_environment(environment, |env| env.producer()).ok_or("Environment not exists")?;
-        if let Some(delay) = producer_properties.batch_delay {
-            producer_builder = producer_builder.batch_delay(delay);
-        }
+        // if let Some(delay) = producer_properties.batch_delay {
+        //     producer_builder = producer_builder.batch_delay(delay);
+        // }
         if let Some(size) = producer_properties.batch_size {
             producer_builder = producer_builder.batch_size(size);
         }
@@ -214,8 +214,8 @@ impl AddinProducer {
 }
 
 impl SimpleAddin for AddinProducer {
-    fn name() -> &'static [u16] {
-        name!("RabbitMQ.Stream.Producer")
+    fn name() -> &'static CStr1C {
+        cstr1c!("RabbitMQ.Stream.Producer")
     }
 
     fn save_error(&mut self, err: Option<Box<dyn Error>>) {

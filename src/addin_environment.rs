@@ -1,4 +1,4 @@
-use addin1c::{name, AddinResult, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
+use addin1c::{AddinResult, CStr1C, MethodInfo, Methods, PropInfo, SimpleAddin, Variant, cstr1c, name};
 use rabbitmq_stream_client::{Environment, EnvironmentBuilder, TlsConfiguration};
 use std::error::Error;
 use tokio::runtime::Runtime;
@@ -168,9 +168,11 @@ impl AddinEnvironment {
                     tls_builder.add_root_certificates(tls_properties.server_certificate_path);
             }
 
-            tls_builder = tls_builder.trust_certificates(tls_properties.trust_certificates);
+            if tls_properties.trust_certificates {
+                tls_builder = tls_builder.enable(true);
+            }
 
-            environment = environment.tls(tls_builder.build());
+            environment = environment.tls(tls_builder.build()?);
         }
 
         let env = self.runtime.block_on(environment.build())?;
@@ -191,8 +193,8 @@ impl AddinEnvironment {
 }
 
 impl SimpleAddin for AddinEnvironment {
-    fn name() -> &'static [u16] {
-        name!("RabbitMQ.Stream.EnvironmentBuilder")
+    fn name() -> &'static CStr1C {
+        cstr1c!("RabbitMQ.Stream.EnvironmentBuilder")
     }
 
     fn save_error(&mut self, err: Option<Box<dyn Error>>) {

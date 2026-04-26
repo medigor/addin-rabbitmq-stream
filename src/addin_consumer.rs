@@ -1,6 +1,6 @@
 use std::{error::Error, mem::transmute, time::Duration};
 
-use addin1c::{name, AddinResult, MethodInfo, Methods, PropInfo, SimpleAddin, Variant};
+use addin1c::{AddinResult, CStr1C, MethodInfo, Methods, PropInfo, SimpleAddin, Variant, cstr1c, name};
 use chrono::{DateTime, Utc};
 use futures::StreamExt;
 use rabbitmq_stream_client::{
@@ -211,8 +211,8 @@ impl AddinConsumer {
 }
 
 impl SimpleAddin for AddinConsumer {
-    fn name() -> &'static [u16] {
-        name!("RabbitMQ.Stream.Consumer")
+    fn name() -> &'static CStr1C {
+        cstr1c!("RabbitMQ.Stream.Consumer")
     }
 
     fn save_error(&mut self, err: Option<Box<dyn Error>>) {
